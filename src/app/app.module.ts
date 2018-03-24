@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { GroceryService } from './services/grocery/grocery.service';
+import { MealsService } from './services/meals/meals.service';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -14,7 +17,10 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [
+    GroceryService,
+    MealsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
