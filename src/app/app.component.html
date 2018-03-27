@@ -1,3 +1,8 @@
-<ul>
-  <li *ngFor="let meal of mealList">{{meal.name}}</li>
-</ul>
+<mat-list>
+  <mat-list-item *ngFor="let meal of mealList; let i = index">
+    <h3 mat-line>{{meal.name}}</h3>
+    <button mat-icon-button (click)="remove(i)">
+      <mat-icon class="mat-24">delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>

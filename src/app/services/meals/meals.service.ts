@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Meal } from './meal.interface';
-import { Http } from '@angular/Http';
 
 @Injectable()
 export class MealsService {
@@ -46,9 +45,9 @@ export class MealsService {
   }
   ];
 
-  constructor(private http: Http) { }
+  constructor() { }
 
   getMeals() {
-    return this.http.get(this.url);
+    return this.meals;
   }
 }

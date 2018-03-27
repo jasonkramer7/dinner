@@ -7,12 +7,13 @@ import { Http } from '@angular/http';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 
   mealList: Meal[] = [];
   groceryList: string[];
+  totalMeans: Meal[];
 
   constructor(http: Http, private groceryService: GroceryService, private mealsService: MealsService) { }
 
@@ -21,21 +22,12 @@ export class AppComponent implements OnInit {
   }
 
   getMeals = () => {
-    this.mealsService.getMeals()
-    .subscribe(response => {
-      const meal = response.json();
-      const length = meal.length;
-      this.mealList[0] = (this.getMeal(length, meal));
-      let tempMeal, checkSame;
-      for (let i = 1; i < 7; i++) {
-        do {
-          tempMeal = this.getMeal(length, meal);
-          checkSame = this.checkProtein(i, tempMeal);
-        }
-        while (checkSame);
-        this.mealList[i] = tempMeal;
-      }
-    });
+    this.totalMeans = this.mealsService.getMeals();
+    const length = this.totalMeans.length;
+    this.mealList[0] = this.getMeal(length);
+    for (let i = 1; i < 7; i++) {
+      this.mealList[i] = this.doCheck(i);
+    }
 
   }
 
@@ -47,16 +39,51 @@ export class AppComponent implements OnInit {
     return Math.floor(Math.random() * length);
   }
 
-  getMeal(length: number, meals: Meal[]): Meal {
+  getMeal(length: number): Meal {
     const ranNum = this.getRandomNumber(length);
-    return meals[ranNum];
+    return this.totalMeans[ranNum];
   }
 
   checkProtein(index: number, temp: Meal): boolean {
-    if (this.mealList[index - 1].protein === temp.protein) {
-      return true;
+    if (index > 0) {
+      if (this.mealList[index - 1].protein === temp.protein) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  checkTheWeek(temp: Meal): boolean {
+    let tempMeal;
+    const length = this.mealList.length - 1;
+    for (let i = 0; i <= length; i++) {
+      tempMeal = this.mealList[i];
+      if (tempMeal.name === temp.name) {
+        return true;
+      }
     }
     return false;
+
+  }
+
+  remove = (index: number) => {
+      this.mealList[index] = this.doCheck(index);
+  }
+
+  doCheck(index: number): Meal {
+    const length = this.mealList.length;
+    let tempMeal, checkSame, checkWeek;
+    if (index !== -1) {
+      do {
+        tempMeal = this.getMeal(length);
+        checkSame = this.checkProtein(index, tempMeal);
+        checkWeek = this.checkTheWeek(tempMeal);
+      }
+      while (checkSame || checkWeek);
+    }
+
+    return tempMeal;
   }
 
 }
