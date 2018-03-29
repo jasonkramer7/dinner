@@ -6,3 +6,11 @@
     </button>
   </mat-list-item>
 </mat-list>
+
+<button mat-raised-button color="primary" (click)="getGroceryList()" >Get Grocery List</button>
+
+<mat-list>
+    <mat-list-item *ngFor="let list of groceryList">
+        {{list}}
+    </mat-list-item>
+</mat-list>

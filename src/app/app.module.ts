@@ -4,11 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
-import { GroceryService } from './services/grocery/grocery.service';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+
 import { MealsService } from './services/meals/meals.service';
 
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -19,10 +24,12 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    MatButtonModule
   ],
   providers: [
-    GroceryService,
     MealsService
   ],
   bootstrap: [AppComponent]
